@@ -1,0 +1,278 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hadiah Spesial untuk Bunda</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    overflow-x: hidden;
+    background: linear-gradient(135deg, #08091f, #19133d, #321b50);
+    color: white;
+    font-family: Georgia, serif;
+    text-align: center;
+}
+
+#bintang {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.konten {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 20px;
+}
+
+.judul {
+    color: #ffe6a7;
+    font-size: clamp(30px, 6vw, 48px);
+    text-shadow: 0 0 20px #ffb6d9;
+    margin-bottom: 12px;
+}
+
+.subjudul {
+    color: #f6d9ef;
+    font-size: 17px;
+    margin-bottom: 25px;
+}
+
+.bunga {
+    font-size: clamp(55px, 12vw, 90px);
+    margin: 15px;
+    animation: goyang 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 15px #ff9ecb);
+}
+
+@keyframes goyang {
+    0%, 100% { transform: rotate(-5deg) translateY(0); }
+    50% { transform: rotate(5deg) translateY(-12px); }
+}
+
+.kartu {
+    width: min(100%, 520px);
+    padding: 28px;
+    border: 1px solid rgba(255,255,255,.25);
+    border-radius: 22px;
+    background: rgba(255,255,255,.09);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 30px rgba(255,160,210,.15);
+}
+
+.kartu h2 {
+    color: #ffd6eb;
+    margin-bottom: 15px;
+}
+
+button {
+    border: none;
+    border-radius: 30px;
+    padding: 14px 28px;
+    margin-top: 20px;
+    background: linear-gradient(90deg, #ff8fbd, #d6a5ff);
+    color: #28152f;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 0 18px #e9a4df;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+#surat {
+    display: none;
+    margin-top: 25px;
+    color: #fff1f8;
+    line-height: 1.9;
+    font-size: 17px;
+    text-align: left;
+    white-space: pre-wrap;
+}
+
+.penutup {
+    display: none;
+    color: #ffd6eb;
+    margin-top: 25px;
+    font-size: 22px;
+    animation: muncul 2s ease;
+}
+
+@keyframes muncul {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.hati {
+    position: fixed;
+    bottom: -30px;
+    z-index: 2;
+    pointer-events: none;
+    animation: terbang 6s linear forwards;
+}
+
+@keyframes terbang {
+    to {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+.kecil {
+    margin-top: 25px;
+    color: #d9c9e8;
+    font-size: 13px;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="bintang"></canvas>
+
+<div class="konten">
+
+    <h1 class="judul">Special Gift for Bunda</h1>
+
+    <p class="subjudul">
+        Ada hadiah kecil yang ingin kami berikan untuk Bunda...
+    </p>
+
+    <div class="bunga">💐🌷🌹</div>
+
+    <div class="kartu">
+        <h2>Untuk Bunda Tersayang ❤️</h2>
+
+        <p>
+            Terima kasih sudah menjadi sosok yang begitu
+            berarti dalam kehidupan kami.
+        </p>
+
+        <button onclick="bukaSurat()">
+            Buka Hadiah ❤️
+        </button>
+
+        <div id="surat"></div>
+
+        <div class="penutup" id="penutup">
+            Selamat Hari Guru, Bunda! ❤️<br>
+            Kami sayang Bunda! 💐
+        </div>
+    </div>
+
+    <p class="kecil">
+        Dibuat dengan penuh cinta oleh Anak-anakmu
+    </p>
+
+</div>
+
+<script>
+const canvas = document.getElementById("bintang");
+const ctx = canvas.getContext("2d");
+
+function aturCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+
+aturCanvas();
+window.addEventListener("resize", aturCanvas);
+
+let bintang = [];
+
+for (let i = 0; i < 120; i++) {
+    bintang.push({
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        ukuran: Math.random() * 2,
+        cahaya: Math.random()
+    });
+}
+
+function gambarBintang() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    bintang.forEach(b => {
+        ctx.beginPath();
+        ctx.arc(b.x, b.y, b.ukuran, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,255,255,${b.cahaya})`;
+        ctx.fill();
+
+        b.cahaya += (Math.random() - 0.5) * 0.08;
+        b.cahaya = Math.max(0.2, Math.min(1, b.cahaya));
+    });
+
+    requestAnimationFrame(gambarBintang);
+}
+
+gambarBintang();
+
+
+const isiPesan = "Bunda, terima kasih telah menjadi guru pertama dalam hidup kami. Terima kasih telah sabar menghadapi sikap kami dan terima kasih telah menjadi guru yang sabar dan selalu rendah hati. Beribu kata maaf kami ucapkan untuk Bunda. Tolong hidup lebih lama ya, Bun. Dari kami, anak-anakmu.";
+let sudahDibuka = false;
+
+function bukaSurat() {
+    if (sudahDibuka) return;
+    sudahDibuka = true;
+
+    const surat = document.getElementById("surat");
+    const penutup = document.getElementById("penutup");
+
+    surat.style.display = "block";
+
+    let i = 0;
+
+    function ketik() {
+        if (i < isiPesan.length) {
+            surat.textContent += isiPesan.charAt(i);
+            i++;
+            setTimeout(ketik, 65);
+        } else {
+            penutup.style.display = "block";
+        }
+    }
+
+    ketik();
+
+    buatHati();
+}
+
+function buatHati() {
+    setInterval(() => {
+        const hati = document.createElement("div");
+        hati.className = "hati";
+        hati.textContent = ["❤️", "💕", "💗", "💖"][
+            Math.floor(Math.random() * 4)
+        ];
+
+        hati.style.left = Math.random() * 100 + "vw";
+        hati.style.fontSize = (15 + Math.random() * 20) + "px";
+
+        document.body.appendChild(hati);
+
+        setTimeout(() => hati.remove(), 6000);
+    }, 500);
+}
+</script>
+
+</body>
+</html>
